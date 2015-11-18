@@ -7,6 +7,10 @@ Teaching myself Go, rewriting GNU Tools to help in that process.
 
 ## Cat
 
+```
+go get github.com/grubernaut/GoNU/cat
+```
+
 Basic GNU Core Utility. The following arguments work:
 
 * `-b` Number the non-blank lines, starting at 1
