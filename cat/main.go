@@ -19,9 +19,8 @@ var (
 )
 
 var (
-	exitCode = 0
-	tab      = []byte{' ', ' ', ' ', ' ', ' '}
-	space    = []byte{' ', ' '}
+	tab   = []byte{' ', ' ', ' ', ' ', ' '}
+	space = []byte{' ', ' '}
 )
 
 func usage() {
@@ -31,26 +30,28 @@ func usage() {
 }
 
 // Report Errors
-func report(err error) {
+func report(err error) int {
 	scanner.PrintError(os.Stderr, err)
-	exitCode = 2
+	return 2
 }
 
 func main() {
-	realMain()
-	os.Exit(exitCode)
+	os.Exit(realMain())
 }
 
-func realMain() {
+func realMain() int {
 	flag.Usage = usage
 	flag.Parse()
+
+	exitCode := 0
 
 	for i := 0; i < flag.NArg(); i++ {
 		path := flag.Arg(i)
 		if err := processFile(path, os.Stdout); err != nil {
-			report(err)
+			exitCode = report(err)
 		}
 	}
+	return exitCode
 }
 
 func processFile(filename string, out io.Writer) error {
